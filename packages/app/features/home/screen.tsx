@@ -62,19 +62,13 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
         <Separator />
       </YStack>
 
-      <Button {...linkProps}>Link to user</Button>
-
       <SheetDemo />
+      <SheetOnly />
     </YStack>
   )
 }
 
 function SheetDemo() {
-  const toast = useToastController()
-
-  const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState(0)
-
   return (
     <>
       <Dialog modal>
@@ -179,6 +173,64 @@ function SheetDemo() {
           </Dialog.FocusScope>
         </Dialog.Portal>
       </Dialog>
+    </>
+  )
+}
+
+function SheetOnly() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <Button onPress={() => setOpen(true)}>
+        <Button.Text>Show Sheet</Button.Text>
+      </Button>
+      <Sheet
+        modal={open}
+        open={open}
+        onOpenChange={setOpen}
+        snapPointsMode="fit"
+        dismissOnSnapToBottom
+        zIndex={100000}
+        animation="medium"
+      >
+        <Sheet.Overlay
+          animation="lazy"
+          backgroundColor="$shadow6"
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
+
+        <Sheet.Frame padding="$4" justifyContent="center" alignItems="center" gap="$5">
+          <Dialog.Title>Edit profile</Dialog.Title>
+          <Dialog.Description>
+            Make changes to your profile here. Click save when you're done.
+          </Dialog.Description>
+
+          <Fieldset gap="$4" horizontal>
+            <Label width={64} htmlFor="name">
+              Name
+            </Label>
+            <Input flex={1} id="name" defaultValue="Nate Wienert" />
+          </Fieldset>
+
+          <Fieldset gap="$4" horizontal>
+            <Label width={64} htmlFor="username">
+              <TooltipSimple label="Pick your favorite" placement="bottom-start">
+                <Paragraph>Food</Paragraph>
+              </TooltipSimple>
+            </Label>
+          </Fieldset>
+
+          <XStack alignSelf="flex-end" gap="$4">
+            <Dialog.Close displayWhenAdapted asChild>
+              <Button theme="accent" aria-label="Close">
+                Save changes
+              </Button>
+            </Dialog.Close>
+          </XStack>
+        </Sheet.Frame>
+      </Sheet>
     </>
   )
 }
