@@ -186,7 +186,7 @@ function SheetOnly() {
         <Button.Text>Show Sheet</Button.Text>
       </Button>
       <Sheet
-        modal={open}
+        modal={true}
         open={open}
         onOpenChange={setOpen}
         snapPointsMode="fit"
